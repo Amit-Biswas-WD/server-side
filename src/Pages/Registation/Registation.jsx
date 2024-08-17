@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthContextProveder";
+import SocialLogin from "../../Share/SocialLogin/SocialLogin";
 
 const Registation = () => {
+
+  const { signIn } = useContext(AuthContext);
 
   const handleRegistation = (event) => {
     event.preventDefault(); 
@@ -9,9 +14,18 @@ const Registation = () => {
     const photoURL = form.photoURL.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name, photoURL, email, password);
-    form.reset();
+    console.log(name, photoURL, email, password)
 
+    signIn(email, password)
+    .then(result => {
+      const user = result.user;
+      console.log(user);
+    })
+    .catch(error => {
+      console.error("Registations failed:", error.message);
+    });
+
+    form.reset();
   };
 
   return (
@@ -21,8 +35,7 @@ const Registation = () => {
           <h1 className="text-5xl font-bold">Sign up now!</h1>
           <p className="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-            et a id nisi.
+            excepturi exercitationem quasi. 
           </p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -44,7 +57,7 @@ const Registation = () => {
               </label>
               <input
                 type="text"
-                name="photoURL" // Added name attribute here
+                name="photoURL" 
                 placeholder="Photo URL"
                 className="input input-bordered"
               />
@@ -66,7 +79,7 @@ const Registation = () => {
               </label>
               <input
                 type="password"
-                name="password" // Added name attribute here
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
               />
@@ -83,6 +96,7 @@ const Registation = () => {
                 value="Sign Up"
               />
             </div>
+            <SocialLogin/>
           </form>
           <p className="px-6 py-2">
             <small>

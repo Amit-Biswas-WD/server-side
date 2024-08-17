@@ -1,15 +1,26 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthContextProveder";
 
 const Login = () => {
 
+  const {signIn} = useContext(AuthContext)
+
   const handleLogin = (event) => {
-    event.preventDefault(); // Corrected here
+    event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    signIn(email, password)
+  .then(result => {
+    const user = result.user;
+    console.log(user);
+  })
+  .catch(error => {
+    console.error("Login failed:", error.message);
+  });
     form.reset();
-
   };
 
   return (
@@ -19,8 +30,7 @@ const Login = () => {
           <h1 className="text-5xl font-bold">Sign up now!</h1>
           <p className="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-            et a id nisi.
+            excepturi exercitationem quasi.
           </p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -42,7 +52,7 @@ const Login = () => {
               </label>
               <input
                 type="password"
-                name="password" // Added name attribute here
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
               />
@@ -62,9 +72,9 @@ const Login = () => {
           </form>
           <p className="px-6 py-2">
             <small>
-              Already have an account?
+            New here?
               <Link className="text-violet-500 ml-4 text-xl" to="/registation">
-                Login
+              Create a New Account
               </Link>
             </small>
           </p>
