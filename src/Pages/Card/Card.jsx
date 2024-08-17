@@ -4,19 +4,24 @@ const Card = () => {
     const [card, setCard] = useState([]);
     
     useEffect(() => {
-        fetch("http://localhost:5000/coffee")
+        fetch("https://scis-part-2.vercel.app/coffee")
             .then((res) => res.json())
-            .then((data) => setCard(data));
+            .then((data) => {
+                setCard(data)
+            })
+            .catch(error => {
+                console.log("error message", error)
+            })
     }, []);
 
     return (
         <div>
             <p>Total items: {card.length}</p>
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <div className="grid xl:grid-cols-3 lg:grid-cols-2 gap-8 my-10">
                 {card.map((cards, index) => (
-                    <div key={index} className="max-w-sm">
-                        <img
-                            className="rounded-t-lg w-full max-h-[250px]"
+                    <div key={index} className="max-w-full border border-gray-300 rounded-xl text-black p-2">
+                    <img
+                            className="rounded-t-lg w-full lg:max-h-[250px] max-h-[400px]"
                             src={cards.ProductImage}
                             alt={cards.ProductName}
                         />
